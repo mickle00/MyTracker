@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from decimal import Decimal
 from re import sub
+import os
 
 req_headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
@@ -32,13 +33,13 @@ def get_zestimate(bsObj):
 def send_message(message):
     client = boto3.client('sns')
     response = client.publish(
-                TargetArn='arn:aws:sns:us-east-1:729203071173:TestTopic2',
+                TargetArn=os.environ['SNS_TOPIC'],
                 Message=message,
                 MessageStructure='text')
 
 def add_to_dynamodb(estimate):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('ZestimateServiceStack-ZestimatesZestimateHistory86D60C73-5VRX6LRTD4NH')
+    table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
     table.put_item(
        Item={
             'date': datetime.today().strftime('%Y-%m-%d'),
