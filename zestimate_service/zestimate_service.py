@@ -2,6 +2,8 @@ import aws_cdk as cdk
 from constructs import Construct
 from aws_cdk import (aws_lambda as lambda_,
                      aws_lambda_python_alpha as lambda_python,
+                     aws_sns_subscriptions as subscriptions,
+                     aws_sns as sns,
                      aws_iam as iam)
 
 
@@ -18,3 +20,7 @@ class ZestimateService(Construct):
 
         event_policy = iam.PolicyStatement(effect=iam.Effect.ALLOW, resources=['*'], actions=['*'])
         handler.add_to_role_policy(event_policy)
+
+        topic = sns.Topic(self, "ZestimateNotifications")
+        topic.add_subscription(subscriptions.SmsSubscription("+12069493916"))
+
