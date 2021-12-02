@@ -4,6 +4,9 @@ import requests
 import datetime
 import boto3
 from bs4 import BeautifulSoup
+from datetime import datetime
+from decimal import Decimal
+from re import sub
 
 req_headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
@@ -33,9 +36,21 @@ def send_message(message):
                 Message=message,
                 MessageStructure='text')
 
+def add_to_dynamodb(estimate):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('ZestimateServiceStack-ZestimatesZestimateHistory86D60C73-5VRX6LRTD4NH')
+    table.put_item(
+       Item={
+            'date': datetime.today().strftime('%Y-%m-%d'),
+            'timestamp': datetime.now().isoformat(),
+            'estimate' : Decimal(sub(r'[^\d.]', '', estimate))
+        }
+)
+
 def main(event, handler):
     estimate = get_zestimate(scrape())
     send_message('Current estimate is: ' + estimate);
+    add_to_dynamodb(estimate)
     print(estimate);
 
 if __name__ == "__main__":
