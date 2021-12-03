@@ -6,6 +6,8 @@ from aws_cdk import (aws_lambda as lambda_,
                      aws_sns as sns,
                      aws_dynamodb as dynamodb,
                      Duration,
+                     aws_events as events,
+                     aws_events_targets as targets,
                      aws_iam as iam)
 
 
@@ -32,6 +34,12 @@ class ZestimateService(Construct):
                         'DYNAMODB_TABLE': table.table_name
                     }
                     )
+
+        rule = events.Rule(self, "DailyRule",
+                 schedule=events.Schedule.cron(minute="0", hour="4"),
+                )
+
+        rule.add_target(targets.LambdaFunction(handler))
 
         event_policy = iam.PolicyStatement(effect=iam.Effect.ALLOW, resources=['*'], actions=['*'])
         handler.add_to_role_policy(event_policy)
