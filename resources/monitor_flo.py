@@ -87,7 +87,7 @@ def add_to_dynamodb(consumption):
             }
 )
 
-def main():
+def main(event, handler):
     user, password = get_credentials()
 
     if (user == None) or (password == None):
@@ -130,4 +130,4 @@ def main():
             add_to_dynamodb(flo.consumption(id))
 
 if __name__ == "__main__":
-    main()
+    main(None, None)
