@@ -1,3 +1,4 @@
 beautifulsoup4==4.10.0
 requests==2.26.0
 boto3==1.20.19
+pyflowater==0.5.1
