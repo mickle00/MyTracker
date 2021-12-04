@@ -44,7 +44,8 @@ def add_to_dynamodb(estimate):
        Item={
             'date': datetime.today().strftime('%Y-%m-%d'),
             'timestamp': datetime.now().isoformat(),
-            'estimate' : Decimal(sub(r'[^\d.]', '', estimate))
+            'estimate' : Decimal(sub(r'[^\d.]', '', estimate)),
+            'type': 'zestimate'
         }
 )
 
