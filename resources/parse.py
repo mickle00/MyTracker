@@ -27,8 +27,8 @@ def scrape():
        print(e)
 
 def get_zestimate(bsObj):
-      button = bsObj.find('button', id = 'dsChipZestimateTooltip')
-      return button.next_sibling.next_sibling.text
+      button = bsObj.find("button", string="Zestimate")
+      return button.next_element.next_element.text
 
 def send_message(message):
     client = boto3.client('sns')
