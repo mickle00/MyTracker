@@ -64,3 +64,23 @@ class ZestimateService(Construct):
 
         flo_event_policy = iam.PolicyStatement(effect=iam.Effect.ALLOW, resources=['*'], actions=['*'])
         flo_handler.add_to_role_policy(flo_event_policy)
+
+        scl_handler = lambda_python.PythonFunction(self, "SclHandler",
+                    runtime=lambda_.Runtime.PYTHON_3_9,
+                    entry="resources",
+                    index="Scl2.py",
+                    handler="main",
+                    timeout=Duration.minutes(10),
+                    environment = {
+                        'DYNAMODB_TABLE': table.table_name
+                    }
+                    )
+
+        scl_rule = events.Rule(self, "HourlyRule",
+                 schedule=events.Schedule.cron(minute="0"),
+                )
+
+        scl_rule.add_target(targets.LambdaFunction(scl_handler))
+
+        scl_event_policy = iam.PolicyStatement(effect=iam.Effect.ALLOW, resources=['*'], actions=['*'])
+        scl_handler.add_to_role_policy(scl_event_policy)
