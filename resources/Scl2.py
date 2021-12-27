@@ -59,7 +59,7 @@ def add_to_dynamodb(items):
                 'date': item['chargeDateRaw'],
                 'timestamp': item['chargeDateRaw'],
                 'type': 'scl',
-                'gallonsConsumed' : item['billedConsumption']
+                'kWhUsed' : item['billedConsumption']
             }
 )
 def get_credentials():
