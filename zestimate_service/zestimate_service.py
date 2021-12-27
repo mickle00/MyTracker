@@ -56,11 +56,11 @@ class ZestimateService(Construct):
                     }
                     )
 
-        flo_rule = events.Rule(self, "HourlyRule",
+        hourly_rule = events.Rule(self, "HourlyRule",
                  schedule=events.Schedule.cron(minute="0"),
                 )
 
-        flo_rule.add_target(targets.LambdaFunction(flo_handler))
+        hourly_rule.add_target(targets.LambdaFunction(flo_handler))
 
         flo_event_policy = iam.PolicyStatement(effect=iam.Effect.ALLOW, resources=['*'], actions=['*'])
         flo_handler.add_to_role_policy(flo_event_policy)
@@ -76,11 +76,7 @@ class ZestimateService(Construct):
                     }
                     )
 
-        scl_rule = events.Rule(self, "HourlyRule",
-                 schedule=events.Schedule.cron(minute="0"),
-                )
-
-        scl_rule.add_target(targets.LambdaFunction(scl_handler))
+        hourly_rule.add_target(targets.LambdaFunction(scl_handler))
 
         scl_event_policy = iam.PolicyStatement(effect=iam.Effect.ALLOW, resources=['*'], actions=['*'])
         scl_handler.add_to_role_policy(scl_event_policy)
