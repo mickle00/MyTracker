@@ -109,10 +109,10 @@ def get_credentials():
     
     return username, pw
 
-def main():
+def main(event, context):
     username, password = get_credentials()
     a = Source('10048 40th Ave NE', username, password)
     a.fetch()
 
 if __name__ == "__main__":
-    main()
+    main(None, None)
