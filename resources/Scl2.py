@@ -54,6 +54,10 @@ def add_to_dynamodb(items):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
 
     for item in items:
+        ## API returns all days in a month, but will zero value for non-requested days
+        if (item['billedConsumption']) == '0.0':
+            print(item)
+            continue
         table.put_item(
            Item={
                 'date': item['chargeDateRaw'],
