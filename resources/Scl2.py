@@ -26,6 +26,7 @@ class Source:
 
         token_info = json.loads(r.text)
         token = token_info["access_token"]
+        print(token_info)
 
         headers = {"Authorization": f"Bearer {token}"}
 
@@ -56,8 +57,9 @@ def add_to_dynamodb(items):
     for item in items:
         ## API returns all days in a month, but will zero value for non-requested days
         if (item['billedConsumption']) == '0.0':
-            print(item)
+            ##print(item)
             continue
+        print(item)
         table.put_item(
            Item={
                 'date': item['chargeDateRaw'],
