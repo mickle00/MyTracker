@@ -68,7 +68,7 @@ class ZestimateService(Construct):
         scl_handler = lambda_python.PythonFunction(self, "SclHandler",
                     runtime=lambda_.Runtime.PYTHON_3_9,
                     entry="resources",
-                    index="Scl2.py",
+                    index="Scl3.py",
                     handler="main",
                     timeout=Duration.minutes(10),
                     environment = {
