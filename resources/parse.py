@@ -18,6 +18,7 @@ req_headers = {
 }
 
 def scrape():
+    print('Scraping!')
     try:
         url = "https://www.zillow.com/homedetails/10048-40th-Ave-NE-Seattle-WA-98125/48960558_zpid/"
         req = requests.get(url, headers = req_headers)
