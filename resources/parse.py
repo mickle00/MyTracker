@@ -9,12 +9,21 @@ from decimal import Decimal
 from re import sub
 import os
 
+
 req_headers = {
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'accept-encoding': 'gzip, deflate, br',
+    'authority': 'www.zillow.com',
     'accept-language': 'en-US,en;q=0.8',
     'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36',
+    'sec-ch-ua': '"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+    'sec-ch-ua-mobile': '?0' ,
+    'sec-ch-ua-platform': '"macOS"' ,
+    'sec-fetch-dest': 'document' ,
+    'sec-fetch-mode': 'navigate' ,
+    'sec-fetch-site': 'same-origin' ,
+    'sec-fetch-user': '?1'
 }
 
 def scrape():
@@ -25,12 +34,17 @@ def scrape():
         bsObj = BeautifulSoup(req.text, "html.parser")
         return bsObj
     except Exception as e:
+       print('Exception')
        print(e)
+    print('end scrape')
 
 def get_zestimate(bsObj):
+      print(bsObj)
+      print('iterating through buttons')
       for button in bsObj.findAll("button"):
+          print(button)
           if ('Zestimate' in button.text):
-            print(button)
+            print('Zestimate button')
             zestimate = button.next_sibling.next_sibling.text
             print(zestimate)
             return zestimate
